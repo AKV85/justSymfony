@@ -1,0 +1,30 @@
+version: '3'
+
+services:
+
+  nginx:
+    build:
+      context: ./docker/nginx
+    volumes:
+      - ./:/app
+    links:
+      - php-fpm
+    ports:
+      - "80:80"
+    networks:
+      - symfony-kafka
+  php-fpm:
+    build:
+      context: ./docker/php-fpm
+    volumes:
+      - ./:/app
+    ports:
+      - "9000:9000"
+    networks:
+      - symfony-kafka
+
+networks:
+  symfony-kafka:
+    driver: bridge
+
+
